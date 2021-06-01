@@ -31,6 +31,10 @@ class CDC(Website):
         response = requests.get("https://covid19dashboard.cdc.gov.tw/dash2")
         
         glo = response.json()['0']
+        
+        response = requests.get("https://covid19dashboard.cdc.gov.tw/dash_cases_top5")
+        
+        casetop5 = response.json()['0']
  
         num1 = activities['送驗']
  
