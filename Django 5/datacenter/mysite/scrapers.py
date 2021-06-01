@@ -52,6 +52,8 @@ class CDC(Website):
         
         num0 = activity['檢驗人數']
         
+        lasttime = activity['資料更新時間']
+        
         glonum = glo['cases']
         
         glodead = glo['deaths']
@@ -61,5 +63,5 @@ class CDC(Website):
         glocountries = glo['countries']
                 
         result.append(
-                    dict(num1 = num1, num2 = num2, num3 = num3, num4 = num4, num5 = num5, num6 = num6, num7 = num7, num8 = num8, num9 = num9, num0 = num0, glonum = glonum, glodead = glodead, glocfr = glocfr, glocountries = glocountries))
+                    dict(num1 = num1, num2 = num2, num3 = num3, num4 = num4, num5 = num5, num6 = num6, num7 = num7, num8 = num8, num9 = num9, num0 = num0, lasttime = lasttime, glonum = glonum, glodead = glodead, glocfr = glocfr, glocountries = glocountries))
         return result

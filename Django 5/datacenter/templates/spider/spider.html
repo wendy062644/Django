@@ -8,6 +8,7 @@
 		<title>Covid-19 即時資訊</title>
 		<meta charset="utf-8" />
 		<link href="{% static 'fontawesome-free-5.15.3-web/css/all.min.css' %}" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
         </tdead>
         <tbody>
@@ -57,8 +58,8 @@
                         <td align="center" style="font-size:40px;">國內通報總計</td>
                	 	<td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num1 }}</td>
 	     		<td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num2 }}</td>
-              		<td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num3 }}</td>
-                        <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num4 }}</td>
+              		<td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.num3 }}</td>
+                        <td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.num4 }}</td>
                         <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num5 }}</td>
         	</tr>
 		<tr>
@@ -73,7 +74,7 @@
                         <td align="center" style="font-size:40px;">昨日新增</td>
                         <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num6 }}</td>
                         <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num7 }}</td>
-                        <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num8 }}</td>
+                        <td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.num8 }}</td>
 	        	<td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num9 }}</td>
                         <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.num0 }}</td>
         	</tr>
@@ -89,17 +90,20 @@
                         <td align="center" style="font-size:40px;">全球死亡病例數</td>
                         <td align="center" style="font-size:40px;">全球致死率</td>
                         <td align="center" style="font-size:40px;">國家/地區數</td>
-			<td align="center" style="font-size:40px;"> </td>
+			<td align="center" style="font-size:40px;">最後更新時間</td>
                 </tr>
 		<tr>
-	        	<td align="center" style="font-size:40px;"> </td>
-                        <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.glonum }}</td>
-                        <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.glodead }}</td>
-                        <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.glocfr }}</td>
+	        	<td align="center" style="font-size:40px;">全球疫情資訊</td>
+                        <td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.glonum }}</td>
+                        <td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.glodead }}</td>
+                        <td align="center" style="font-size:40px; font-weight:bold; color:red;">{{ disease.glocfr }}</td>
                         <td align="center" style="font-size:40px; font-weight:bold;">{{ disease.glocountries }}</td>
-			<td align="center" style="font-size:40px;"> </td>
+			<td align="center" style="font-size:40px; font-weight:bold;">{{ disease.lasttime }}</td>
                 </tr>
-                {% endfor %}
+
         </tbody>
 </table>
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+                {% endfor %}
 </html>
