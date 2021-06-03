@@ -1,0 +1,62 @@
+{% load static %}
+<html lang="zh-tw">
+<form action="" metdod="Post">
+    {% csrf_token %}
+</form>
+	<tdead>
+		<title>水庫水位即時資訊</title>
+		<meta charset="utf-8" />
+		<link href="{% static 'fontawesome-free-5.15.3-web/css/all.min.css' %}" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        </tdead>
+        <tbody>
+		<ul class="nav nav-pills nav-fill">
+			<div class="container">
+			<nav class="navbar fixed-top navbar-light" style="background-color:black">
+ 	   		<li class="nav-item">
+       	 		<a class="nav-link" href="home" style="font-weight: bold; color: white; font-size:23px;"><i class="fas fa-home"></i>&nbsp; 首頁 Home</a>
+     	 		</li>
+     	 		<li class="nav-item">
+      	 		<a class="nav-link" href="about" style="font-weight: bold; color: white; font-size:23px;"><i class="fas fa-info-circle"></i>&nbsp; 關於 About</a>
+     	 		</li>
+     			 <li class="nav-item active">
+       			 <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white ;font-size:23px;"><i class="fas fa-spider"></i>&nbsp; 爬蟲時事資訊</a>
+       			 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        			 <a class="dropdown-item" href="spidercovid-19" style="font-weight: bold; color: black; font-size:23px;"><i class="fas fa-lungs-virus"></i>&nbsp;Covid-19 即時資訊&nbsp; </a>
+         			 <a class="dropdown-item" href="spiderwater" style="font-weight: bold; color: black; font-size:23px;">&nbsp;<i class="fas fa-tint"></i>&nbsp;&nbsp;水庫水位即時資訊&nbsp; </a>
+         			 <a class="dropdown-item" href="#" style="font-weight: bold; color: black; font-size:23px;"><i class="fas fa-wrench"></i>&nbsp;正在開發中...</a>
+       			 </div>
+     			 </li>
+     			<li class="nav-item">
+     		  	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white; font-size:23px;">
+      	 		<i class="fas fa-code"></i>&nbsp 程式練習
+      	 		</a>
+       			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+       	   		<a class="dropdown-item" href="https://zerojudge.tw/" style="font-weight: bold; color: black; font-size:23px;">Zero Judge 高中生程式解題系統&emsp; &emsp; &emsp; &emsp;&emsp;&emsp;</a>
+       	  		<a class="dropdown-item" href="http://www.tcgs.tc.edu.tw:1218/" style="font-weight: bold; color: black; font-size:23px;">台中女中程式解題系統</a>
+        		<a class="dropdown-item" href="https://leetcode.com/" style="font-weight: bold; color: black; font-size:23px;">LeetCode &nbsp</a>
+      	  		</div>
+      			</li>
+			</nav>
+ 			</div>
+		</ul>
+<h1>hi</h1>
+	{% for water in dam %}
+	<table class="table table-bordered table-striped border-primary" border="2" align=center>
+		<tr>
+			<td align="center" style="font-size:30px;">水庫名稱</td>
+			<td align="center" style="font-size:30px;">有效容量(萬立方公尺)</td>
+			<td align="center" style="font-size:30px;">進水量(萬立方公尺)</td>
+			<td align="center" style="font-size:30px;">出水量(萬立方公尺)</td>
+			<td align="center" style="font-size:30px;">水情時間</td>
+			<td align="center" style="font-size:30px;">水位(公尺)</td>
+			<td align="center" style="font-size:30px;">有效蓄水量(萬立方公尺)</td>
+			<td align="center" style="font-size:30px;">蓄水量百分比(%)</td>
+		</tr>
+	</table>
+        </tbody>
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+                {% endfor %}
+</html>
