@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+{% csrf_token %}
+<head lang="zh-tw">
+    <meta charset="UTF-8">
+    <title>水庫水位即時資訊</title>
+    <script src="https://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <script src="{% static 'liquidFillGauge.js' %}" language="JavaScript"></script>
+    <style>
+        .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+    </style>
+    <link href="{% static 'fontawesome-free-5.15.3-web/css/all.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<ul class="nav nav-pills nav-fill">
+	 <nav class="navbar fixed-top navbar-light" style="background-color:black">
+	 <div class="container fluid">
+ 	 <li class="nav-item">
+         <a class="nav-link" href="home" style="font-weight: bold; color: white; "><i class="fas fa-home"></i>&nbsp; 首頁 Home</a>
+     	 </li>
+     	 <li class="nav-item">
+      	 <a class="nav-link" href="about" style="font-weight: bold; color: white; "><i class="fas fa-info-circle"></i>&nbsp; 關於 About</a>
+     	 </li>
+     		<li class="nav-item active">
+       		<a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white ;"><i class="fas fa-spider"></i>&nbsp; 爬蟲時事資訊</a>
+       		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        		<a class="dropdown-item" href="spidercovid-19" style="font-weight: bold; color: black; "><i class="fas fa-lungs-virus"></i>&nbsp;Covid-19 即時資訊&nbsp; </a>
+         		<a class="dropdown-item" href="spiderwater" style="font-weight: bold; color: black; ">&nbsp;<i class="fas fa-tint"></i>&nbsp;&nbsp;水庫水位即時資訊&nbsp; </a>
+         		<a class="dropdown-item" href="#" style="font-weight: bold; color: black; "><i class="fas fa-wrench"></i>&nbsp;正在開發中...</a>
+       		</div>
+     		</li>
+     	<li class="nav-item">
+     		 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white; ">
+      	 <i class="fas fa-code"></i>&nbsp 程式練習
+      	 </a>
+       	<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+       	   <a class="dropdown-item" href="https://zerojudge.tw/" style="font-weight: bold; color: black; ">Zero Judge 高中生程式解題系統</a>
+       	  <a class="dropdown-item" href="http://www.tcgs.tc.edu.tw:1218/" style="font-weight: bold; color: black; ">台中女中程式解題系統</a>
+        <a class="dropdown-item" href="https://leetcode.com/" style="font-weight: bold; color: black; ">LeetCode</a>
+      	  </div>
+      	</li>
+ 	</div>
+	</nav>
+</ul>
+<a>&ensp;</a>
+<h6>&ensp; </h6>
+{% for water in dam %}
+<div class="container-fluid">
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+  	<h1 align="center" style="font-weight:bold;">北部地區</h1>
+	<hr>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.新山水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.翡翠水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.石門水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.永和山水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.寶山水庫.name }}</h5>
+  </div>
+</div>
+<svg id="fillgauge1" width="20%" height="250" onclick="gauge1.update(NewValue());"></svg>
+<svg id="fillgauge2" width="20%" height="250" onclick="gauge2.update(NewValue());"></svg>
+<svg id="fillgauge3" width="20%" height="250" onclick="gauge3.update(NewValue());"></svg>
+<svg id="fillgauge4" width="20%" height="250" onclick="gauge4.update(NewValue());"></svg>
+<svg id="fillgauge5" width="19%" height="250" onclick="gauge5.update(NewValue());"></svg>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.新山水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.翡翠水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.石門水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.永和山水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.寶山水庫.volumn }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.新山水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.翡翠水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.石門水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.永和山水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.寶山水庫.baseAvailable }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.新山水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.翡翠水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.石門水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.永和山水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.寶山水庫.daliyOverflow }}</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.新山水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.翡翠水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.石門水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.永和山水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.寶山水庫.updateAt }}</h5>
+  </div>
+</div>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.寶山第二水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+  </div>
+</div>
+<svg id="fillgauge6" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge6" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge6" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge6" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge6" width="19%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.寶山第二水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.寶山第二水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.寶山第二水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.寶山第二水庫.updateAt }}</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<h1 align="center" style="font-weight:bold;">中部地區</h1>
+<hr>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.明德水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.鯉魚潭水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.德基水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.石岡壩.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.日月潭水庫.name }}</h5>
+  </div>
+</div>
+<svg id="fillgauge7" width="20%" height="250" onclick="gauge7.update(NewValue());"></svg>
+<svg id="fillgauge8" width="20%" height="250" onclick="gauge8.update(NewValue());"></svg>
+<svg id="fillgauge9" width="20%" height="250" onclick="gauge9.update(NewValue());"></svg>
+<svg id="fillgauge10" width="20%" height="250" onclick="gauge10.update(NewValue());"></svg>
+<svg id="fillgauge11" width="19%" height="250" onclick="gauge11.update(NewValue());"></svg>
+<a>&ensp;</a>
+</br>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.明德水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.鯉魚潭水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.德基水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.石岡壩.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.日月潭水庫.volumn }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.明德水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.鯉魚潭水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.德基水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.石岡壩.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.日月潭水庫.baseAvailable }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.明德水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.鯉魚潭水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.德基水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.石岡壩.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.日月潭水庫.daliyOverflow }}</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.明德水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.鯉魚潭水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.德基水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.石岡壩.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.日月潭水庫.updateAt }}</h5>
+  </div>
+</div>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.霧社水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+  </div>
+</div>
+<svg id="fillgauge12" width="20%" height="250" onclick="gauge12.update(NewValue());"></svg>
+<svg id="fillgauge12" width="20%" height="250" onclick="gauge12.update(NewValue());"></svg>
+<svg id="fillgauge12" width="20%" height="250" onclick="gauge12.update(NewValue());"></svg>
+<svg id="fillgauge12" width="20%" height="250" onclick="gauge12.update(NewValue());"></svg>
+<svg id="fillgauge12" width="19%" height="250" onclick="gauge12.update(NewValue());"></svg>
+<a>&ensp;</a>
+</br>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.霧社水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.霧社水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.霧社水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.霧社水庫.updateAt }}</h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<h1 align="center" style="font-weight:bold;">南部地區</h1>
+<hr>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.湖山水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.仁義潭水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.蘭潭水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold">{{ water.data.白河水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.曾文水庫.name }}</h5>
+  </div>
+</div>
+<a>&ensp;</a>
+<svg id="fillgauge13" width="19%" height="250" onclick="gauge13.update(NewValue());"></svg>
+<svg id="fillgauge14" width="20%" height="250" onclick="gauge14.update(NewValue());"></svg>
+<svg id="fillgauge15" width="20%" height="250" onclick="gauge15.update(NewValue());"></svg>
+<svg id="fillgauge16" width="20%" height="250" onclick="gauge16.update(NewValue());"></svg>
+<svg id="fillgauge17" width="19%" height="250" onclick="gauge17.update(NewValue());"></svg>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.湖山水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.仁義潭水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.蘭潭水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.白河水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.曾文水庫.volumn }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.湖山水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.仁義潭水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.蘭潭水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.白河水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.曾文水庫.baseAvailable }}萬立方公尺</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.湖山水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.仁義潭水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.蘭潭水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.白河水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.曾文水庫.daliyOverflow }}</h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.湖山水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.仁義潭水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.蘭潭水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.白河水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.曾文水庫.updateAt }}</h5>
+  </div>
+</div>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.烏山頭水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.南化水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.阿公店水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;">{{ water.data.牡丹水庫.name }}</h5>
+    <h5 class="col" align="center" style="font-weight:bold;"></h5>
+  </div>
+</div>
+<svg id="fillgauge18" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge19" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge20" width="19%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge21" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<svg id="fillgauge21" width="20%" height="250" onclick="gauge6.update(NewValue());"></svg>
+<a>&ensp;</a>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.烏山頭水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.南化水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.阿公店水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" >有效蓄水量 : {{ water.data.牡丹水庫.volumn }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.烏山頭水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.南化水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.阿公店水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" >最大蓄水量 : {{ water.data.南化水庫.baseAvailable }}萬立方公尺</h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.烏山頭水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.南化水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.阿公店水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" >昨日水量上升 : {{ water.data.南化水庫.daliyOverflow }}</h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.烏山頭水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.曾文水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.阿公店水庫.updateAt }}</h5>
+    <h5 class="col" align="center" >最後更新時間 : {{ water.data.牡丹水庫.updateAt }}</h5>
+    <h5 class="col" align="center" ></h5>
+  </div>
+</div>
+<script language="JavaScript">
+    var gauge1 = loadLiquidFillGauge("fillgauge1", {{ water.data.新山水庫.percentage }});
+    var config1 = liquidFillGaugeDefaultSettings();
+    config1.circleColor = "#FF7777";
+    config1.textColor = "#FF4444";
+    config1.waveTextColor = "#FFAAAA";
+    config1.waveColor = "#FFDDDD";
+    config1.circleThickness = 0.2;
+    config1.textVertPosition = 0.2;
+    config1.waveAnimateTime = 1000;
+    var gauge2= loadLiquidFillGauge("fillgauge2", {{ water.data.翡翠水庫.percentage }});
+    var config2 = liquidFillGaugeDefaultSettings();
+    config2.circleColor = "#FF7777";
+    config2.textColor = "#FF4444";
+    config2.waveTextColor = "#FFAAAA";
+    config2.waveColor = "#FFDDDD";
+    config2.circleThickness = 0.2;
+    config2.textVertPosition = 0.2;
+    config2.waveAnimateTime = 1000;
+    var gauge3 = loadLiquidFillGauge("fillgauge3", {{ water.data.石門水庫.percentage }});
+    var config3 = liquidFillGaugeDefaultSettings();
+    config3.circleColor = "#FF7777";
+    config3.textColor = "#FF4444";
+    config3.waveTextColor = "#FFAAAA";
+    config3.waveColor = "#FFDDDD";
+    config3.circleThickness = 0.2;
+    config3.textVertPosition = 0.2;
+    config3.waveAnimateTime = 1000;
+    var gauge4 = loadLiquidFillGauge("fillgauge4", {{ water.data.永和山水庫.percentage }});
+    var config4 = liquidFillGaugeDefaultSettings();
+    config4.circleColor = "#FF7777";
+    config4.textColor = "#FF4444";
+    config4.waveTextColor = "#FFAAAA";
+    config4.waveColor = "#FFDDDD";
+    config4.circleThickness = 0.2;
+    config4.textVertPosition = 0.2;
+    config4.waveAnimateTime = 1000;
+    var gauge5 = loadLiquidFillGauge("fillgauge5", {{ water.data.寶山水庫.percentage }});
+    var config5 = liquidFillGaugeDefaultSettings();
+    config5.circleColor = "#FF7777";
+    config5.textColor = "#FF4444";
+    config5.waveTextColor = "#FFAAAA";
+    config5.waveColor = "#FFDDDD";
+    config5.circleThickness = 0.2;
+    config5.textVertPosition = 0.2;
+    config5.waveAnimateTime = 1000;
+    var gauge6 = loadLiquidFillGauge("fillgauge6", {{ water.data.寶山第二水庫.percentage }});
+    var config6 = liquidFillGaugeDefaultSettings();
+    config6.circleColor = "#FF7777";
+    config6.textColor = "#FF4444";
+    config6.waveTextColor = "#FFAAAA";
+    config6.waveColor = "#FFDDDD";
+    config6.circleThickness = 0.2;
+    config6.textVertPosition = 0.2;
+    config6.waveAnimateTime = 1000;
+    var gauge7 = loadLiquidFillGauge("fillgauge7", {{ water.data.明德水庫.percentage }});
+    var config7 = liquidFillGaugeDefaultSettings();
+    config7.circleColor = "#FF7777";
+    config7.textColor = "#FF4444";
+    config7.waveTextColor = "#FFAAAA";
+    config7.waveColor = "#FFDDDD";
+    config7.circleThickness = 0.2;
+    config7.textVertPosition = 0.2;
+    config7.waveAnimateTime = 1000;
+    var gauge8 = loadLiquidFillGauge("fillgauge8", {{ water.data.鯉魚潭水庫.percentage }});
+    var config8 = liquidFillGaugeDefaultSettings();
+    config8.circleColor = "#FF7777";
+    config8.textColor = "#FF4444";
+    config8.waveTextColor = "#FFAAAA";
+    config8.waveColor = "#FFDDDD";
+    config8.circleThickness = 0.2;
+    config8.textVertPosition = 0.2;
+    config8.waveAnimateTime = 1000;
+    var gauge9 = loadLiquidFillGauge("fillgauge9", {{ water.data.德基水庫.percentage }});
+    var config9 = liquidFillGaugeDefaultSettings();
+    config9.circleColor = "#FF7777";
+    config9.textColor = "#FF4444";
+    config9.waveTextColor = "#FFAAAA";
+    config9.waveColor = "#FFDDDD";
+    config9.circleThickness = 0.2;
+    config9.textVertPosition = 0.2;
+    config9.waveAnimateTime = 1000;
+    var gauge10 = loadLiquidFillGauge("fillgauge10", {{ water.data.石岡壩.percentage }});
+    var config10 = liquidFillGaugeDefaultSettings();
+    config10.circleColor = "#FF7777";
+    config10.textColor = "#FF4444";
+    config10.waveTextColor = "#FFAAAA";
+    config10.waveColor = "#FFDDDD";
+    config10.circleThickness = 0.2;
+    config10.textVertPosition = 0.2;
+    config10.waveAnimateTime = 1000;
+    var gauge11 = loadLiquidFillGauge("fillgauge11", {{ water.data.日月潭水庫.percentage }});
+    var config11 = liquidFillGaugeDefaultSettings();
+    config11.circleColor = "#FF7777";
+    config11.textColor = "#FF4444";
+    config11.waveTextColor = "#FFAAAA";
+    config11.waveColor = "#FFDDDD";
+    config11.circleThickness = 0.2;
+    config11.textVertPosition = 0.2;
+    config11.waveAnimateTime = 1000;
+    var gauge12 = loadLiquidFillGauge("fillgauge12", {{ water.data.霧社水庫.percentage }});
+    var config12 = liquidFillGaugeDefaultSettings();
+    config12.circleColor = "#FF7777";
+    config12.textColor = "#FF4444";
+    config12.waveTextColor = "#FFAAAA";
+    config12.waveColor = "#FFDDDD";
+    config12.circleThickness = 0.2;
+    config12.textVertPosition = 0.2;
+    config12.waveAnimateTime = 1000;
+    var gauge13 = loadLiquidFillGauge("fillgauge13", {{ water.data.湖山水庫.percentage }});
+    var config13 = liquidFillGaugeDefaultSettings();
+    config13.circleColor = "#FF7777";
+    config13.textColor = "#FF4444";
+    config13.waveTextColor = "#FFAAAA";
+    config13.waveColor = "#FFDDDD";
+    config13.circleThickness = 0.2;
+    config13.textVertPosition = 0.2;
+    config13.waveAnimateTime = 1000;
+    var gauge14 = loadLiquidFillGauge("fillgauge14", {{ water.data.仁義潭水庫.percentage }});
+    var config14 = liquidFillGaugeDefaultSettings();
+    config14.circleColor = "#FF7777";
+    config14.textColor = "#FF4444";
+    config14.waveTextColor = "#FFAAAA";
+    config14.waveColor = "#FFDDDD";
+    config14.circleThickness = 0.2;
+    config14.textVertPosition = 0.2;
+    config14.waveAnimateTime = 1000;
+    var gauge15 = loadLiquidFillGauge("fillgauge15", {{ water.data.蘭潭水庫.percentage }});
+    var config15 = liquidFillGaugeDefaultSettings();
+    config15.circleColor = "#FF7777";
+    config15.textColor = "#FF4444";
+    config15.waveTextColor = "#FFAAAA";
+    config15.waveColor = "#FFDDDD";
+    config15.circleThickness = 0.2;
+    config15.textVertPosition = 0.2;
+    config15.waveAnimateTime = 1000;
+    var gauge16 = loadLiquidFillGauge("fillgauge16", {{ water.data.白河水庫.percentage }});
+    var config16 = liquidFillGaugeDefaultSettings();
+    config16.circleColor = "#FF7777";
+    config16.textColor = "#FF4444";
+    config16.waveTextColor = "#FFAAAA";
+    config16.waveColor = "#FFDDDD";
+    config16.circleThickness = 0.2;
+    config16.textVertPosition = 0.2;
+    config16.waveAnimateTime = 1000;
+    var gauge17 = loadLiquidFillGauge("fillgauge17", {{ water.data.曾文水庫.percentage }});
+    var config17 = liquidFillGaugeDefaultSettings();
+    config17.circleColor = "#FF7777";
+    config17.textColor = "#FF4444";
+    config17.waveTextColor = "#FFAAAA";
+    config17.waveColor = "#FFDDDD";
+    config17.circleThickness = 0.2;
+    config17.textVertPosition = 0.2;
+    config17.waveAnimateTime = 1000;
+    var gauge18 = loadLiquidFillGauge("fillgauge18", {{ water.data.烏山頭水庫.percentage }});
+    var config18 = liquidFillGaugeDefaultSettings();
+    config18.circleColor = "#FF7777";
+    config18.textColor = "#FF4444";
+    config18.waveTextColor = "#FFAAAA";
+    config18.waveColor = "#FFDDDD";
+    config18.circleThickness = 0.2;
+    config18.textVertPosition = 0.2;
+    config18.waveAnimateTime = 1000;
+    var gauge19 = loadLiquidFillGauge("fillgauge19", {{ water.data.南化水庫.percentage }});
+    var config19 = liquidFillGaugeDefaultSettings();
+    config19.circleColor = "#FF7777";
+    config19.textColor = "#FF4444";
+    config19.waveTextColor = "#FFAAAA";
+    config19.waveColor = "#FFDDDD";
+    config19.circleThickness = 0.2;
+    config19.textVertPosition = 0.2;
+    config19.waveAnimateTime = 1000;
+    var gauge20 = loadLiquidFillGauge("fillgauge20", {{ water.data.阿公店水庫.percentage }});
+    var config20 = liquidFillGaugeDefaultSettings();
+    config20.circleColor = "#FF7777";
+    config20.textColor = "#FF4444";
+    config20.waveTextColor = "#FFAAAA";
+    config20.waveColor = "#FFDDDD";
+    config20.circleThickness = 0.2;
+    config20.textVertPosition = 0.2;
+    config20.waveAnimateTime = 1000;
+    var gauge21 = loadLiquidFillGauge("fillgauge21", {{ water.data.牡丹水庫.percentage }});
+    var config21 = liquidFillGaugeDefaultSettings();
+    config21.circleColor = "#FF7777";
+    config21.textColor = "#FF4444";
+    config21.waveTextColor = "#FFAAAA";
+    config21.waveColor = "#FFDDDD";
+    config21.circleThickness = 0.2;
+    config21.textVertPosition = 0.2;
+    config21.waveAnimateTime = 1000;
+
+</script>
+</body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col" style="text-align:right; margin: auto 50px auto auto; font-size: 30px; font-weight:bold;">資料來源:<a href="https://fhy.wra.gov.tw/ReservoirPage_2011/StorageCapacity.aspx">經濟部水利署</a></div>
+		<div class="col" style="text-align:left; margin: auto 50px auto auto; font-size: 30px; font-weight:bold;">爬蟲資料來源:<a href="https://water.taiwanstat.com/">用數據看台灣</a></div>
+	</div>
+</div>
+{% endfor %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</html>
