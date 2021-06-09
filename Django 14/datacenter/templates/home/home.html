@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<!--
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+<html lang="zh-tw">
+	<script language="JavaScript">
+		function ShowTime(){
+		document.getElementById('showbox').innerHTML = new Date();
+		setTimeout('ShowTime()',1000);
+		}
+		window.onload = function() { document.body.classList.remove('is-preload'); }
+		window.ontouchmove = function() { return false; }
+		window.onorientationchange = function() { document.body.scrollTop = 0; }
+	</script>
+	<head>
+		<title>首頁 Home</title>
+		<link href="{% static 'fontawesome-free-5.15.3-web/css/all.min.css' %}" rel="stylesheet">
+		<meta charset="utf-8" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'home/assets/css/main.css' %}"> 
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body onload="ShowTime()">
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
+				<!-- Header -->
+					<header id="header">
+						<h1>Welcome to my Web</h1>
+						<div id="showbox" style="font-weight:bold;"></div>
+						<nav>
+							<ul>
+								<li><a href="https://www.facebook.com/profile.php?id=100015416673519" target="_blank" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/yu_lin_leo/" target="_blank" class="icon brands fa-instagram"><span class="label">Instergram</span></a></li>
+								<li><a href="https://github.com/wendy062644" target="_blank" class="icon brands fa-github"><span class="label">Github</span></a></li>
+								<li><a href="http://www.tcgs.tc.edu.tw:1218/ShowUserStatistic?account=wendy062644" target="_blank" class="fas fa-code"><span class="label">Judge</span></a></li>
+								<li><a href="https://line.me/ti/p/D-_fdcZi4G" target="_blank" class="fab fa-line"><span class="label">Line</span></a></li>
+							</ul>
+						</nav>
+					</header>
+				<!-- Footer -->
+					<footer id="footer">
+						<span class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>.</span>
+					</footer>
+
+			</div>
+		</div>
+		<ul class="nav nav-pills nav-fill">
+
+		<nav class="navbar fixed-top navbar-dark background-color:transparent;">
+		<div class="container fluid">
+     		<li class="nav-item active">
+      		<a class="nav-link active" href="home" style="font-weight: bold; color: white; "><i class="fas fa-home"></i>&nbsp; 首頁 Home</a>
+      		</li>
+      		<li class="nav-item">
+     		<a class="nav-link" href="about" style="font-weight: bold; color: white; "><i class="fas fa-info-circle"></i>&nbsp; 關於 About</a>
+     		</li>
+     		<li class="nav-item">
+       		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white ;"><i class="fas fa-spider"></i>&nbsp; 爬蟲時事資訊</a>
+       		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        		<a class="dropdown-item" href="spidercovid-19" style="font-weight: bold; color: black; "><i class="fas fa-lungs-virus"></i>&nbsp; Covid-19 &nbsp;即時資訊&nbsp;</a>
+         		<a class="dropdown-item" href="spiderwater" style="font-weight: bold; color: black; ">&nbsp; <i class="fas fa-tint"></i>&nbsp;&nbsp; 水庫水位即時資訊 </a>
+         		<a class="dropdown-item" href="#" style="font-weight: bold; color: black; "><i class="fas fa-wrench"></i>&nbsp;正在開發中...</a>
+       		</div>
+     		</li>
+   		<li class="nav-item">
+      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white; ">
+       		<i class="fas fa-code"></i>&nbsp 程式練習
+      		</a>
+       		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+         		 <a class="dropdown-item" href="https://zerojudge.tw/" style="font-weight: bold; color: black; ">Zero Judge 高中生程式解題系統</a>
+        		 <a class="dropdown-item" href="http://www.tcgs.tc.edu.tw:1218/" style="font-weight: bold; color: black; ">台中女中程式解題系統</a>
+        		 <a class="dropdown-item" href="https://leetcode.com/" style="font-weight: bold; color: black; ">LeetCode</a>
+       		</div>
+     		</li>
+ 		</div>
+		</nav>
+
+		</ul>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	</body>
+</html>
