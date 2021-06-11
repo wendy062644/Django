@@ -1,13 +1,62 @@
 {% load static %}
 <html>
 <head>
+    <title>學習歷程</title>
     <link href="{% static 'profile/profile.css' %}" rel="stylesheet">
     <link href="{% static 'fontawesome-free-5.15.3-web/css/all.min.css' %}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <body>
+		<ul class="nav nav-pills nav-fill">
+
+		<nav class="navbar fixed-top navbar-light" style="background-color:#454545">
+		<div class="container fluid">
+     		<li class="nav-item">
+      		<a class="nav-link" href="home" style="font-weight: bold; color: white; font-size:20px;"><i class="fas fa-home"></i>&nbsp; 首頁 Home</a>
+      		</li>
+      		<li class="nav-item">
+     		<a class="nav-link" href="about" style="font-weight: bold; color: white; font-size:20px;"><i class="fas fa-info-circle"></i>&nbsp; 關於 About</a>
+     		</li>
+     		<li class="nav-item">
+       		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white; font-size:20px;"><i class="fas fa-spider"></i>&nbsp; 爬蟲時事資訊</a>
+       		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        		<a class="dropdown-item" href="spidercovid-19" style="font-weight: bold; color: black; font-size:20px;"><i class="fas fa-lungs-virus"></i>&nbsp; Covid-19 &nbsp;即時資訊&nbsp;</a>
+         		<a class="dropdown-item" href="spiderwater" style="font-weight: bold; color: black; font-size:20px;">&nbsp;<i class="fas fa-tint"></i>&nbsp;&nbsp; 水庫水位即時資訊 </a>
+         		<a class="dropdown-item" href="#" style="font-weight: bold; color: black; font-size:20px;"><i class="fas fa-wrench"></i>&nbsp;正在開發中...</a>
+       		</div>
+     		</li>
+   		<li class="nav-item">
+      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; color: white; font-size:20px;">
+       		<i class="fas fa-code"></i>&nbsp 程式練習
+      		</a>
+       		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+         		 <a class="dropdown-item" href="https://zerojudge.tw/" style="font-weight: bold; color: black; font-size:20px;">Zero Judge 高中生程式解題系統</a>
+        		 <a class="dropdown-item" href="http://www.tcgs.tc.edu.tw:1218/" style="font-weight: bold; color: black; font-size:20px;">台中女中程式解題系統</a>
+        		 <a class="dropdown-item" href="https://leetcode.com/" style="font-weight: bold; color: black; font-size:20px;">LeetCode</a>
+       		</div>
+     		</li>
+ 		</div>
+		</nav>
+
+		</ul>
 <div class="page">
   <div class="timeline">
+    <div class="timeline__group">
+      <span class="timeline__year time" aria-hidden="true" style="font-size:30px; font-weight:bold;">2017</span>
+      <div class="timeline__cards">
+        <div class="timeline__card card">
+          <header class="card__header">
+            <time class="time" datetime="2017-11-16">
+              <span class="time__day">16</span>
+              <span class="time__month">Oct</span>
+            </time>
+	    <h3 class="card__title r-title" style="font-weight:bold;">第一次接觸程式 Learning programming for the first time</h3>	
+          </header>
+          <div class="card__content">
+            <p>當時的Minecraft擁有大量玩家，有非常多的人自己開了伺服器裝上插件開放給大家玩，因此當時的我對這種機制非常感興趣，開始研究如何架設伺服器及裝入插件，也翻譯了幾個國外的插件功能。</p>
+          </div>
+        </div>
+      </div>
     <div class="timeline__group">
       <span class="timeline__year time" aria-hidden="true" style="font-size:30px; font-weight:bold;">2018</span>
       <div class="timeline__cards">
@@ -17,9 +66,22 @@
               <span class="time__day">28</span>
               <span class="time__month">Feb</span>
             </time>
+            <h3 class="card__title r-title" style="font-weight:bold;">第一次組裝個人電腦 Constructing a computer for the first time</h3>
           </header>
           <div class="card__content">
-            <p>Attends the Philadelphia Museum School of Industrial Art. Studies design with Alexey Brodovitch, art director at Harper's Bazaar, and works as his assistant.</p>
+            <p>當時正逢PUBG(吃雞遊戲)的風潮，且架設伺服器後時常感受到電腦不夠力，所以開始上網查各種電腦型號及配備，最後花了好幾天的時間摸索，組裝了第一台電腦。比較可惜的是剛好遇上挖礦風潮，顯卡缺貨，價格大漲，3月時巔峰，4月緩降，12月礦難。</p>
+          </div>
+        </div>
+        <div class="timeline__card card">
+          <header class="card__header">
+            <time class="time" datetime="2018-04-15">
+              <span class="time__day">15</span>
+              <span class="time__month">Apr</span>
+            </time>
+            <h3 class="card__title r-title" style="font-weight:bold;">第一次進入二手市場的坑 First time to immerse in the second hand computer items market</h3>
+          </header>
+          <div class="card__content">
+            <p>了解大部分型號及價格後，就像發現新世界一樣，用各種高CP值的零件組成一台符合自己需求且穩定的電腦，所帶來的愉悅感遠遠比買新的電腦還來的高。全新的吃雞電腦當時要2萬元，但用二手零件最低只需要7000元而已。</p>
           </div>
         </div>
         <div class="timeline__card card">
@@ -28,10 +90,10 @@
               <span class="time__day">15</span>
               <span class="time__month">Dec</span>
             </time>
-            <h3 class="card__title r-title" style="font-weight:bold;">第一次接觸程式 Learning programming for the first time</h3>
+            <h3 class="card__title r-title" style="font-weight:bold;">第一次學習演算法 Learning algorithm for the first time</h3>
           </header>
           <div class="card__content">
-            <p>第一次接觸到的程式是</p>
+            <p></p>
           </div>
         </div>
       </div>
