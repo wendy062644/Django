@@ -40,7 +40,6 @@ def spiderwater(request):
     infor = {
         "dam": waterinfor.scrape()
     }
- 
     return render(request, "spiderwater/spiderwater.html", infor)
 
 def test(request):
