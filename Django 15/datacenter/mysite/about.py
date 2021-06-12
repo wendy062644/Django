@@ -15,6 +15,6 @@ class aboutme:
 
         data = BeautifulSoup(response.text, "lxml")
 
-        data = data.find("a", {"href": "./RankList?tab=tab02&page=4#wendy062644"}).getText().strip()
+        data = data.find("a", {"href": "./RankList?tab=tab02&page=3#wendy062644"}).getText().strip()
 
         return data
